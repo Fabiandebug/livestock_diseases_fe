@@ -1,1 +1,137 @@
-<p>disease works!</p>
+<form [formGroup]="diseaseForm" (ngSubmit)="onSubmit()">
+  <mat-form-field>
+    <input
+      matInput
+      placeholder="Identifier"
+      formControlName="identifier"
+      required
+    />
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-select placeholder="Language" formControlName="language" required>
+      <mat-option value="en">English</mat-option>
+      <mat-option value="sw">Kiswahili</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="Name" formControlName="name" required />
+  </mat-form-field>
+
+  <mat-form-field>
+    <input
+      matInput
+      placeholder="Local Names"
+      formControlName="local_names"
+      required
+    />
+  </mat-form-field>
+
+  <mat-form-field>
+    <input
+      matInput
+      placeholder="Other Livestock Affected"
+      formControlName="other_livestock_affected"
+      required
+    />
+  </mat-form-field>
+
+  <mat-form-field>
+    <ckeditor
+      [editor]="Editor"
+      [formControlName]="'transmission'"
+      placeholder="Transmission"
+      [required]="true"
+    ></ckeditor>
+  </mat-form-field>
+
+  <mat-form-field>
+    <textarea
+      matInput
+      placeholder="Number Affected in Herd"
+      formControlName="number_affected_in_herd"
+      required
+    ></textarea>
+  </mat-form-field>
+
+  <mat-form-field>
+    <textarea
+      matInput
+      placeholder="Death Rate"
+      formControlName="death_rate"
+      required
+    ></textarea>
+  </mat-form-field>
+
+  <mat-form-field>
+    <textarea
+      matInput
+      placeholder="Predisposing Factors"
+      formControlName="predisposing_factors"
+      required
+    ></textarea>
+  </mat-form-field>
+
+  <mat-form-field>
+    <textarea
+      matInput
+      placeholder="Key Signs"
+      formControlName="key_signs"
+      required
+    ></textarea>
+  </mat-form-field>
+
+  <mat-form-field>
+    <textarea
+      matInput
+      placeholder="Other Signs"
+      formControlName="other_signs"
+      required
+    ></textarea>
+  </mat-form-field>
+
+  <mat-form-field>
+    <textarea
+      matInput
+      placeholder="Prevention"
+      formControlName="prevention"
+      required
+    ></textarea>
+  </mat-form-field>
+
+  <!-- Images form array -->
+  <div formArrayName="images">
+    <div *ngFor="let imageGroup of images.controls; let i = index">
+      <div [formGroupName]="i">
+        <mat-form-field>
+          <input
+            type="file"
+            matInput
+            placeholder="Image"
+            (change)="onChangeFile($event)"
+          />
+        </mat-form-field>
+
+        <mat-form-field>
+          <textarea
+            matInput
+            placeholder="Description"
+            formControlName="description"
+          ></textarea>
+        </mat-form-field>
+
+        <button mat-icon-button color="warn" (click)="removeImage(i)">
+          <mat-icon>remove</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <button mat-raised-button color="primary" (click)="addImage()">
+    Add Image
+  </button>
+
+  <button mat-raised-button color="primary" type="submit">Submit</button>
+</form>
+<!-- app.component.html -->
