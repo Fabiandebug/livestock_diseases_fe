@@ -1,30 +1,30 @@
+import  ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
 import { DiseaseService } from 'src/app/service/disease/disease.service';
 import { ImageService } from 'src/app/service/image/image.service';
-import { DialogRef } from '@angular/cdk/dialog';
 import { SnackBarService } from 'src/app/service/snack-bar/snack-bar.service';
-import { MatDialogRef } from '@angular/material/dialog';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ImageComponent } from '../image/image.component';
+
 
 
 @Component({
   selector: 'app-disease',
   templateUrl: './disease.component.html',
-  styleUrls: ['./disease.component.css']
+  styleUrls: ['/disease.component.css']
 })
 export class DiseaseComponent implements OnInit {
   public Editor=ClassicEditor
 
   diseaseForm: FormGroup;
 
-
   constructor(
     private _fb: FormBuilder,
     private _diseaseService: DiseaseService,
     private _imageService: ImageService,
-    private _snackBarService: SnackBarService
+    private _snackBarService: SnackBarService,
+    private _dialog:MatDialog
   ) {
     this.diseaseForm = this._fb.group({
       identifier: [''],
@@ -32,7 +32,7 @@ export class DiseaseComponent implements OnInit {
       name: [''],
       local_names: [''],
       other_livestock_affected: [''],
-      transmission: ['',Validators.required],
+      transmission: [''],
       number_affected_in_herd: [''],
       death_rate: [''],
       predisposing_factors: [''],
@@ -44,26 +44,14 @@ export class DiseaseComponent implements OnInit {
 
   }
 
+
+
   ngOnInit(): void {
 
   }
 
-  // Helper method to add an image control to the images form array
-  addImage() {
-    const imageGroup = this._fb.group({
-      image: [null],
-      description: ['']
-    });
-    this.images.push(imageGroup);
-  }
-
-  // Helper method to remove an image control from the images form array
-  removeImage(index: number) {
-    this.images.removeAt(index);
-  }
-
-  // Submit the form
-  onSubmit() {
+   // Submit the form
+   onSubmit() {
     if (this.diseaseForm.valid) {
       const formData = this.diseaseForm.value;
 
@@ -73,24 +61,11 @@ export class DiseaseComponent implements OnInit {
           // Handle success response
           const diseaseId = diseaseResponse.id;
 
-          // Check if images are available
-          const images = this.images.value;
-          if (images.some((image:any) => image.image !== null)) {
-            this._imageService.addImage({ diseaseId: diseaseId, images: images }).subscribe(
-              (imageResponse) => {
-                console.log('Image response:', imageResponse); // Check the response from addImage()
-                // Handle success response
-                this._snackBarService.openSnackBar('Disease information saved successfully');
-              },
-              (imageError) => {
-                console.error('Failed to save images:', imageError); // Log the error response
-                this._snackBarService.openSnackBar('Failed to save images');
-              }
-            );
-          } else {
-            // No image selected, handle accordingly
-            this._snackBarService.openSnackBar('Disease information saved successfully');
-          }
+          // Handle success response
+          this._snackBarService.openSnackBar('Disease information saved successfully');
+          // this._dialog.open(ImageComponent, {
+          //   data: { diseaseId: diseaseId }
+          // });
         },
         (diseaseError) => {
           console.error('Failed to save disease information:', diseaseError); // Log the error response
@@ -103,20 +78,6 @@ export class DiseaseComponent implements OnInit {
     }
   }
 
-  // Getter for the images form array
-  get images() {
-    return this.diseaseForm.get('images') as FormArray;
-  }
-
-
-onChangeFile(event:any){
-
-  if(event.target.files.length>0){
-    const file=event.target.files[0];
-
-  }
-
-}
 
 
 

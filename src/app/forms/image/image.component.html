@@ -1,1 +1,30 @@
-<p>image works!</p>
+<form [formGroup]="imageForm">
+  <div formArrayName="image">
+    <div>
+      <mat-label>Image</mat-label>
+      <input type="file" />
+
+      <mat-form-field appearance="outline">
+        <mat-label>Description</mat-label>
+        <input
+          matInput
+          placeholder="Description"
+          formControlName="description"
+          required
+        />
+      </mat-form-field>
+
+      <button mat-icon-button color="warn">
+        <mat-icon>remove</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <button mat-raised-button color="primary" (click)="addImage()">
+    Add Image
+  </button>
+
+  <button mat-raised-button color="primary" (click)="uploadImages()">
+    Upload Images
+  </button>
+</form>

@@ -15,7 +15,7 @@ export class DiseaseService {
     return this._http.post('http://localhost:8000/disease/',data);
   }
   getDisease(identifier:string,language:string):Observable<any>{
-    return this._http.get(`http://localhost:8000/disease/${identifier}/${language}`);
+    return this._http.get(`http://localhost:8000/disease/CBPP/${language}`);
   }
   deleteDisease(identifier:string,language:string):Observable<any>{
     return this._http.delete(`http://localhost:8000/disease/${identifier}/${language}`)

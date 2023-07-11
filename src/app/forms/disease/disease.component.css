@@ -1,0 +1,22 @@
+.formWarapper{
+  padding-top: 10px;
+  padding-left: 10px;
+}
+
+.flexContainer {
+  display: flex;
+}
+
+.inputcontainer{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.ckContainer1 {
+  width:44%;
+}
+
+.ckContainer2 {
+  width:44%;
+  padding-left: 30px;
+}

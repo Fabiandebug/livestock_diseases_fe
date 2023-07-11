@@ -1,0 +1,18 @@
+.toggle{
+  padding-left: 10px;
+  padding-top: 10px;
+  display:flex;
+  flex-wrap: wrap;
+  gap:16px;
+}
+.btnContainer{
+  padding-left: 10px;
+  padding-top: 10px;
+  display:flex;
+  flex-wrap: wrap;
+  gap:16px;
+}
+
+.contentContainer{
+  padding-left: 10px;
+}

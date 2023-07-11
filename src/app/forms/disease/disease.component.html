@@ -1,137 +1,131 @@
-<form [formGroup]="diseaseForm" (ngSubmit)="onSubmit()">
-  <mat-form-field>
-    <input
-      matInput
-      placeholder="Identifier"
-      formControlName="identifier"
-      required
-    />
-  </mat-form-field>
+<div class="formWarapper">
+  <form [formGroup]="diseaseForm" (ngSubmit)="onSubmit()">
+    <h1 style="color: blue"><b>Please Enter Disease Information </b></h1>
+    <div class="inputcontainer">
+      <mat-form-field appearance="outline">
+        <mat-label>Identifier</mat-label>
+        <input
+          matInput
+          placeholder="Identifier"
+          formControlName="identifier"
+          required
+        />
+      </mat-form-field>
 
-  <mat-form-field>
-    <mat-select placeholder="Language" formControlName="language" required>
-      <mat-option value="en">English</mat-option>
-      <mat-option value="sw">Kiswahili</mat-option>
-    </mat-select>
-  </mat-form-field>
+      <mat-form-field appearance="outline" style="width: 25%">
+        <mat-select placeholder="Language" formControlName="language" required>
+          <mat-option value="en">English</mat-option>
+          <mat-option value="sw">Kiswahili</mat-option>
+        </mat-select>
+      </mat-form-field>
 
-  <mat-form-field>
-    <input matInput placeholder="Name" formControlName="name" required />
-  </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Name</mat-label>
+        <input matInput placeholder="Name" formControlName="name" required />
+      </mat-form-field>
 
-  <mat-form-field>
-    <input
-      matInput
-      placeholder="Local Names"
-      formControlName="local_names"
-      required
-    />
-  </mat-form-field>
+      <mat-form-field appearance="outline" style="width: 25%">
+        <mat-label>Other Livestock Affected</mat-label>
+        <input
+          matInput
+          placeholder="Other Livestock Affected"
+          formControlName="other_livestock_affected"
+          required
+        />
+      </mat-form-field>
+    </div>
 
-  <mat-form-field>
-    <input
-      matInput
-      placeholder="Other Livestock Affected"
-      formControlName="other_livestock_affected"
-      required
-    />
-  </mat-form-field>
+    <div class="flexContainer">
+      <div class="ckContainer1">
+        <div class="CkeditorContainer">
+          <mat-label><b>Local Names</b></mat-label>
+          <ckeditor
+            [config]="{ placeholder: 'Type Here' }"
+            [editor]="Editor"
+            data=""
+            formControlName="local_names"
+          ></ckeditor>
+        </div>
 
-  <mat-form-field>
-    <ckeditor
-      [editor]="Editor"
-      [formControlName]="'transmission'"
-      placeholder="Transmission"
-      [required]="true"
-    ></ckeditor>
-  </mat-form-field>
+        <br />
+        <div class="CkeditorContainer">
+          <mat-label><b>Transmission</b></mat-label>
+          <ckeditor
+            [config]="{ placeholder: 'Type Here' }"
+            [editor]="Editor"
+            data=""
+            formControlName="transmission"
+          ></ckeditor>
+        </div>
 
-  <mat-form-field>
-    <textarea
-      matInput
-      placeholder="Number Affected in Herd"
-      formControlName="number_affected_in_herd"
-      required
-    ></textarea>
-  </mat-form-field>
+        <br />
+        <div class="CkeditorContainer">
+          <mat-label><b>Number Affected in Herd</b></mat-label>
+          <ckeditor
+            [config]="{ placeholder: 'Type Here' }"
+            [editor]="Editor"
+            data=""
+            formControlName="number_affected_in_herd"
+          ></ckeditor>
+        </div>
 
-  <mat-form-field>
-    <textarea
-      matInput
-      placeholder="Death Rate"
-      formControlName="death_rate"
-      required
-    ></textarea>
-  </mat-form-field>
+        <br />
+        <div class="CkeditorContainer">
+          <mat-label><b>Death Rate</b></mat-label>
+          <ckeditor
+            [config]="{ placeholder: 'Type Here' }"
+            [editor]="Editor"
+            data=""
+            formControlName="death_rate"
+          ></ckeditor>
+        </div>
+      </div>
+      <div class="ckContainer2">
+        <div class="CkeditorContainer">
+          <mat-label><b>Predesposing Factors</b></mat-label>
+          <ckeditor
+            [config]="{ placeholder: 'Type Here' }"
+            [editor]="Editor"
+            data=""
+            formControlName="predisposing_factors"
+          ></ckeditor>
+        </div>
 
-  <mat-form-field>
-    <textarea
-      matInput
-      placeholder="Predisposing Factors"
-      formControlName="predisposing_factors"
-      required
-    ></textarea>
-  </mat-form-field>
+        <br />
+        <div class="CkeditorContainer">
+          <mat-label><b>Key Sings</b></mat-label>
+          <ckeditor
+            [config]="{ placeholder: 'Type Here' }"
+            [editor]="Editor"
+            data=""
+            formControlName="key_signs"
+          ></ckeditor>
+        </div>
 
-  <mat-form-field>
-    <textarea
-      matInput
-      placeholder="Key Signs"
-      formControlName="key_signs"
-      required
-    ></textarea>
-  </mat-form-field>
+        <br />
+        <div class="CkeditorContainer">
+          <mat-label><b>Other Signs</b></mat-label>
+          <ckeditor
+            [config]="{ placeholder: 'Type Here' }"
+            [editor]="Editor"
+            data=""
+            formControlName="other_signs"
+          ></ckeditor>
+        </div>
 
-  <mat-form-field>
-    <textarea
-      matInput
-      placeholder="Other Signs"
-      formControlName="other_signs"
-      required
-    ></textarea>
-  </mat-form-field>
-
-  <mat-form-field>
-    <textarea
-      matInput
-      placeholder="Prevention"
-      formControlName="prevention"
-      required
-    ></textarea>
-  </mat-form-field>
-
-  <!-- Images form array -->
-  <div formArrayName="images">
-    <div *ngFor="let imageGroup of images.controls; let i = index">
-      <div [formGroupName]="i">
-        <mat-form-field>
-          <input
-            type="file"
-            matInput
-            placeholder="Image"
-            (change)="onChangeFile($event)"
-          />
-        </mat-form-field>
-
-        <mat-form-field>
-          <textarea
-            matInput
-            placeholder="Description"
-            formControlName="description"
-          ></textarea>
-        </mat-form-field>
-
-        <button mat-icon-button color="warn" (click)="removeImage(i)">
-          <mat-icon>remove</mat-icon>
-        </button>
+        <br />
+        <div class="CkeditorContainer">
+          <mat-label><b>Prevention</b></mat-label>
+          <ckeditor
+            [config]="{ placeholder: 'Type Here' }"
+            [editor]="Editor"
+            data=""
+            formControlName="prevention"
+          ></ckeditor>
+        </div>
       </div>
     </div>
-  </div>
-
-  <button mat-raised-button color="primary" (click)="addImage()">
-    Add Image
-  </button>
-
-  <button mat-raised-button color="primary" type="submit">Submit</button>
-</form>
-<!-- app.component.html -->
+    <br />
+    <button mat-raised-button color="primary" type="submit">Submit</button>
+  </form>
+</div>

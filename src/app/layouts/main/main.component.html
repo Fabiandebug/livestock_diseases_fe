@@ -1,1 +1,72 @@
-<p>main works!</p>
+<h1 style="color: blue">
+  <b> Please select Identifier an Language to display data </b>
+</h1>
+<div class="toggle">
+  <mat-form-field appearance="outline" style="width: 25%">
+    <mat-select
+      placeholder="Identifier"
+      required
+      [(ngModel)]="selectedIdentifier"
+    >
+      <mat-option *ngFor="let identifier of identifiers" [value]="identifier">{{
+        identifier
+      }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" style="width: 25%">
+    <mat-select placeholder="Language" required [(ngModel)]="selectedLanguage">
+      <mat-option value="en">English</mat-option>
+      <mat-option value="sw">Kiswahili</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+
+<div *ngIf="diseaseData" class="contentContainer">
+  <h2 style="color: lightblue">{{ diseaseData.name }}</h2>
+  <h3 style="color: lightblue">Identifier: {{ diseaseData.identifier }}</h3>
+  <p style="color: lightblue">Local Names:</p>
+  <div [innerHTML]="diseaseData.local_names"></div>
+  <p style="color: lightblue">
+    Other Livestock Affected: {{ diseaseData.other_livestock_affected }}
+  </p>
+  <p style="color: lightblue">Transmission:</p>
+  <div [innerHTML]="diseaseData.transmission"></div>
+  <p style="color: lightblue">Number Affected in Herd:</p>
+  <div [innerHTML]="diseaseData.number_affected_in_herd"></div>
+  <p style="color: lightblue">Death Rate:</p>
+  <div [innerHTML]="diseaseData.death_rate"></div>
+  <p style="color: lightblue">Predisposing Factors:</p>
+  <div [innerHTML]="diseaseData.predisposing_factors"></div>
+  <p style="color: lightblue">Key Signs:</p>
+  <div [innerHTML]="diseaseData.key_signs"></div>
+  <p style="color: lightblue">Other Signs:</p>
+  <div [innerHTML]="diseaseData.other_signs"></div>
+  <p style="color: lightblue">Prevention:</p>
+  <div [innerHTML]="diseaseData.prevention"></div>
+  <p style="color: lightblue">Images:</p>
+  <div *ngFor="let image of diseaseData.images">
+    <img [src]="image.image" alt="Disease Image" />
+    <p>{{ image.description }}</p>
+  </div>
+</div>
+
+<div class="btnContainer">
+  <button
+    mat-raised-button
+    color="primary"
+    style="width: auto"
+    (click)="getDiseaseData()"
+  >
+    Get Disease Data
+  </button>
+
+  <button
+    mat-raised-button
+    color="secondary"
+    style="width: auto"
+    routerLink="disease/add"
+  >
+    Add Disease
+  </button>
+</div>
