@@ -9,75 +9,78 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
   templateUrl: './image.component.html',
   styleUrls: ['./image.component.css']
 })
-export class ImageComponent implements OnInit {
+export class ImageComponent {
   imageForm!: FormGroup;
 
-
+  // @Inject(MAT_DIALOG_DATA) public data: any,
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private _fb: FormBuilder,
     private _snackBarService: SnackBarService,
     private _imageService: ImageService
-  ) {}
+  ) {
+    const diseaseId = this.data.diseaseId;
+  }
 
-  ngOnInit(): void {
-    this.imageForm = this._fb.group({
-      disease: ['', Validators.required],
-      image: this._fb.array([])
+  ngOnInit() {
+    this.imageForm=this._fb.group({
+      disease:[null,Validators.required],
+      description:[null,Validators.required],
+      image:[null,Validators.required]
     });
   }
 
-  onChangeFile(event: any, index: number): void {
-    const files = event.target.files;
-    if (files && files.length > 0) {
-      const imageControl = this.imageForm.get('image') as FormArray;
-      imageControl.at(index).setValue(files[0]);
-    }
-  }
+  uploadFile(event:any) {
+    console.log("file selected");
 
-  removeImage(index: number): void {
-    const imageControl = this.imageForm.get('image') as FormArray;
-    imageControl.removeAt(index);
-  }
+    const inputEvent = event as InputEvent;
+    const target = inputEvent.target as HTMLInputElement;
+    const file = target?.files?.[0];
 
-  addImage(): void {
-    const imageControl = this.imageForm.get('image') as FormArray;
-    imageControl.push(new FormControl(null));
-  }
-
-  uploadImages(): void {
-    if (this.imageForm.valid) {
-      const diseaseId = this.imageForm.value.disease;
-      const formData = new FormData();
-
-      // Append disease ID to all images
-      const images = this.imageForm.value.image;
-      for (let i = 0; i < images.length; i++) {
-        const image = images[i];
-        formData.append(`image${i + 1}`, image);
-        formData.append(`disease${i + 1}`, diseaseId);
-      }
-
-      this._imageService.addImage(formData).subscribe(
-        (response) => {
-          // Handle success
-          console.log('Images uploaded successfully', response);
-          // Reset the form
-          this.imageForm.reset();
-          // Show success message
-          this._snackBarService.openSnackBar('Images uploaded successfully');
-        },
-        (error) => {
-          // Handle error
-          console.error('Error uploading images', error);
-          // Show error message
-          this._snackBarService.openSnackBar('Error uploading images');
-        }
-      );
+    if (file) {
+      console.log("File selected:", file);
     } else {
-      // Handle form validation errors
-      this._snackBarService.openSnackBar('Please fill in all required fields');
+      console.log("No file selected.");
     }
+
+    this.imageForm.patchValue({
+      image: file
+    });
+    this.imageForm.get('image')?.updateValueAndValidity();
+
+  }
+  submitForm() {
+    const formData:any=new FormData();
+
+    formData.append('disease',this.data.diseaseId)
+    formData.append('description',this.imageForm.get('description')?.value)
+    formData.append('image',this.imageForm.get('image')?.value)
+
+     // Check if image or description is empty
+    if (!formData.get('description') || !formData.get('image')) {
+      this._snackBarService.openSnackBar('Please enter both image and description', 'Close');
+      return; // Exit the method if fields are empty
+    }
+
+    console.log('Form Data Values:');
+    for (const [key, value] of formData.entries()) {
+      console.log(`${key}: ${value}`);
+    }
+
+    this._imageService.addImage(formData).subscribe(
+      (imageResponse) => {
+        this._snackBarService.openSnackBar('Image Uploaded Successfully', 'Close');
+      },
+      (imageError) => {
+        this._snackBarService.openSnackBar('Upload Failed', 'Close');
+        console.error(imageError);
+      }
+    );
   }
 
+
+  clearFields(fileInput: any) {
+    this.imageForm.reset();
+    fileInput.nativeElement.value = ''; // Clear the file input value
+  }
 }

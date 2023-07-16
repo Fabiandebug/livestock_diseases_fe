@@ -1,0 +1,31 @@
+.imageupload {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20px;
+
+}
+
+.form-control {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-bottom: 12px;
+}
+
+input[type="file"] {
+  margin-bottom: 12px;
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+button[type="submit"] {
+  flex-grow: 1;
+  margin-right: 8px;
+}

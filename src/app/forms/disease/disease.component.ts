@@ -39,7 +39,7 @@ export class DiseaseComponent implements OnInit {
       key_signs: [''],
       other_signs: [''],
       prevention: [''],
-      images: this._fb.array([]) // Add images as a form array for multiple images
+      images: this._fb.array(['']) // Add images as a form array for multiple images
     });
 
   }
@@ -54,7 +54,6 @@ export class DiseaseComponent implements OnInit {
    onSubmit() {
     if (this.diseaseForm.valid) {
       const formData = this.diseaseForm.value;
-
       // First, save the disease information
       this._diseaseService.addDisease(formData).subscribe(
         (diseaseResponse) => {
@@ -63,9 +62,9 @@ export class DiseaseComponent implements OnInit {
 
           // Handle success response
           this._snackBarService.openSnackBar('Disease information saved successfully');
-          // this._dialog.open(ImageComponent, {
-          //   data: { diseaseId: diseaseId }
-          // });
+          this._dialog.open(ImageComponent, {
+            data: { diseaseId: diseaseId }
+          });
         },
         (diseaseError) => {
           console.error('Failed to save disease information:', diseaseError); // Log the error response
